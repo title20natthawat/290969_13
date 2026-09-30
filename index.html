@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>to 2/13</title>
+<!-- เปลี่ยน Font ให้คล้ายในวิดีโอ: เรียบหรูและอ่านง่าย -->
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Prompt:wght@300;400นี่คือโค้ดที่ปรับแก้เป็น **"ธีมสีฟ้า (Blue Theme)"** ให้ดูน่ารัก สดใส และสบายตาครับ โดยมีการเปลี่ยนทั้งสีพื้นหลัง, สีซองจดหมาย, เงา, สีตัวอักษร รวมถึงเปลี่ยนอิโมจิหัวใจให้เป็นโทนสีฟ้าเข้ากับธีมครับ
+
+คุณสามารถคัดลอกโค้ดด้านล่างนี้ไปใช้ทับโค้ดเดิมได้เลยครับ:
+
+```html
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>to 2/13</title>
+<!-- เปลี่ยน Font ให้คล้ายในวิดีโอ: เรียบหรูและอ่านง่าย -->
+<link href="[https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Prompt:wght@300;400;500&display=swap](https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Prompt:wght@300;400;500&display=swap)" rel="stylesheet">
+<style>
+:root{
+  /* เปลี่ยนโทนสีเป็นสีฟ้า */
+  --bg1:#e0f2fe; 
+  --bg2:#bae6fd; 
+  --ink:#1e293b; 
+  --pink:#7dd3fc; /* ใช้ตัวแปรเดิมแต่เปลี่ยนเป็นสีฟ้ากลาง */
+  --rose:#38bdf8; /* ใช้ตัวแปรเดิมแต่เปลี่ยนเป็นสีฟ้าเข้ม/สดใส */
+  --paper:#ffffff;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px)
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg1:#0f172a; /* สีพื้นหลังโหมดมืด */
+    --bg2:#1e293b;
+  }
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:'Prompt',sans-serif;background:linear-gradient(160deg,var(--bg1),var(--bg2));color:var(--ink);overflow:hidden;display:flex;align-items:center;justify-content:center}
+
+/* Floating Hearts */
+#hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:99}
+.h{position:absolute;bottom:-40px;animation:floatUp linear forwards;opacity:.8}
+@keyframes floatUp{to{transform:translate(var(--dx),-110vh) scale(var(--s)) rotate(var(--r));opacity:0}}
+
+.stage{position:relative;width:100%;max-width:420px;padding:20px;text-align:center;z-index:2}
+.step{display:none}
+.step.on{display:block;animation:pop .6s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{opacity:0;transform:scale(.7) translateY(20px)}to{opacity:1;transform:none}}
+.hint{margin-top:18px;font-size:14px;color:#60a5fa;opacity:.75;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.25}}
+
+/* envelope */
+.env{position:relative;width:260px;height:170px;margin:0 auto;cursor:pointer;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 12px 18px rgba(56,189,248,.35))}
+@keyframes float{50%{transform:translateY(-10px) rotate(-1.5deg)}}
+.env .body{position:absolute;inset:0;background:var(--pink);border-radius:8px}
+.env .flap{position:absolute;left:0;right:0;top:0;height:100px;background:var(--rose);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .7s;z-index:3;border-radius:8px 8px 0 0}
+.env .front{position:absolute;inset:0;background:#93c5fd;clip-path:polygon(0 100%,0 30%,50% 65%,100% 30%,100% 100%);border-radius:8px;z-index:2}
+.env .paper{position:absolute;left:14px;right:14px;top:14px;height:130px;background:var(--paper);border-radius:6px;z-index:1;transition:transform .8s}
+.env .seal{position:absolute;left:50%;top:78px;transform:translate(-50%,-50%);font-size:34px;z-index:4;transition:opacity .3s;animation:beat 1.2s infinite}
+@keyframes beat{50%{transform:translate(-50%,-50%) scale(1.2)}}
+.env.open .flap{transform:rotateX(180deg);z-index:0}
+.env.open .seal{opacity:0}
+.env.open .paper{transform:translateY(-70px)}
+.env.close .flap{transform:rotateX(0)}
+
+/* card แบบใหม่ตามวิดีโอ */
+.card{background:var(--paper);border-radius:12px;padding:30px 24px 20px;cursor:pointer;box-shadow:0 12px 30px rgba(56,189,248,.25);position:relative;text-align:left;}
+.card .close-btn{position:absolute;top:12px;right:16px;color:#94a3b8;font-family:sans-serif;font-size:14px;font-weight:bold;}
+.card.tilt{animation:sway 5s ease-in-out infinite}
+@keyframes sway{50%{transform:rotate(1deg)}}
+
+/* ข้อความในการ์ด 1 */
+.card h1{font-family:'Lora',serif;font-size:18px;margin:0 0 12px;color:#0284c7;font-weight:600;letter-spacing:0.5px}
+.card p{font-size:14px;line-height:1.7;margin:0;min-height:9em;color:var(--ink);font-weight:300}
+.card .cur::after{content:"|";animation:blink .8s infinite}
+
+/* สติ๊กเกอร์ด้านล่างการ์ด 1 */
+.sticker-bottom {text-align:center;margin-top:16px;font-size:36px;}
+.sticker-bottom span{display:inline-block;animation:hop 1.5s ease-in-out infinite}
+
+/* การ์ด 2: Music Player */
+#c3 {text-align:center;padding:20px;}
+#c3 h1 {font-family:'Prompt',sans-serif;font-size:14px;color:#0284c7;margin-bottom:12px;}
+#c3 img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:6px;margin:0;box-shadow:0 4px 10px rgba(0,0,0,.08);}
+.music-bar {display:flex;justify-style:space-between;align-items:center;background:#f8fafc;padding:10px 16px;border-radius:20px;margin-top:16px;box-shadow:0 2px 8px rgba(56,189,248,.15);}
+.music-bar .now-playing {font-size:12px;color:#64748b;display:flex;align-items:center;gap:6px;}
+.music-bar .now-playing span {font-size:16px;}
+.audio-waves {display:flex;gap:3px;align-items:center;height:16px;}
+.audio-waves span {display:block;width:3px;background:var(--rose);border-radius:2px;animation:wave 1s ease-in-out infinite;}
+.audio-waves span:nth-child(1) { height:8px; animation-delay:0.1s; }
+.audio-waves span:nth-child(2) { height:14px; animation-delay:0.3s; }
+.audio-waves span:nth-child(3) { height:10px; animation-delay:0.5s; }
+.audio-waves span:nth-child(4) { height:16px; animation-delay:0.2s; }
+@keyframes wave { 50% {height:4px;} }
+
+@keyframes hop{50%{transform:translateY(-8px) scale(1.05)}}
+.card.shrink{animation:shrink 1s forwards}
+@keyframes shrink{to{transform:translateY(160px) scale(.15) rotate(8deg);opacity:0}}
+.end{font-size:18px;margin-top:20px;opacity:0;transition:opacity 1s;font-weight:400;color:#0284c7}
+.end.show{opacity:1}
+
+/* ลูกเล่นโชว์หน้าการ์ดให้ช้าลงและมีมิติเด้งดึ๋ง */
+#s2.step.on, #s3.step.on {
+  animation: slowPop 1.2s cubic-bezier(0.2, 0.1, 0.5, 1) forwards;
+  transform-origin: center bottom;
+}
+@keyframes slowPop {
+  0% { opacity: 0; transform: translateY(60px) scale(0.6) rotate(-5deg); }
+  60% { opacity: 1; transform: translateY(-10px) scale(1.02) rotate(2deg); }
+  100% { transform: translateY(0) scale(1) rotate(0deg); }
+}
+</style>
+</head>
+<body>
+
+<!-- เพิ่มเครื่องเล่นเพลง background เล่นวนลูปตลอดเวลา -->
+<audio id="bgm" loop preload="auto">
+  <source src="https://mp3tourl.com/audio/1790774162770-7f02f63f-c9cd-44b5-8861-82497d4fda7c.mp3" type="audio/mpeg">
+</audio>
+
+<div id="hearts"></div>
+<div class="stage">
+
+  <div class="step on" id="s1">
+    <div class="env" id="env"><div class="body"></div><div class="paper"></div><div class="front"></div><div class="flap"></div><div class="seal">💌</div></div>
+    <div class="hint">แตะที่ซองจดหมาย</div>
+  </div>
+
+  <div class="step" id="s2">
+    <div class="card tilt" id="c2">
+      <div class="close-btn">X</div>
+      <h1>to m.2/13</h1>
+      <p id="txt"></p>
+      <div class="sticker-bottom" id="sticker" style="opacity:0; transition: opacity 1s;"><span>💙🐻</span></div>
+    </div>
+    <div class="hint">แตะที่การ์ดเพื่อไปต่อ</div>
+  </div>
+
+  <div class="step" id="s3">
+    <div class="card" id="c3">
+      <div class="close-btn">X</div>
+      <h1>🩵 love u to the moon and back</h1>
+      <img id="photo" src="https://i.ibb.co/Mkpy9bHk/S-44548100.jpg" alt="รูปภาพพิเศษ" border="0">
+      <div class="music-bar">
+        <div class="now-playing"><span>🎵</span> ดีใจที่ได้พบ</div>
+        <div class="audio-waves">
+          <span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+      
+    </div>
+    <div class="hint">แตะเพื่อเก็บใส่ซอง</div>
+  </div>
+
+  <div class="step" id="s4">
+    <div class="card" id="c4" style="cursor:default; text-align:center; padding:30px">
+      <h1 style="font-size:40px; margin-bottom:10px">🩵</h1>
+      <p style="min-height:0; text-align:center">เก็บไว้ในใจเสมอ</p>
+    </div>
+    <div class="env" id="env2" style="margin-top:-20px;animation:none"><div class="body"></div><div class="paper"></div><div class="front"></div><div class="flap" style="transform:rotateX(180deg);z-index:0"></div><div class="seal" style="opacity:0">💌</div></div>
+    <div class="end" id="end">ทำด้วยใจล้วนๆ ✨ แตะเพื่อดูอีกรอบ</div>
+  </div>
+</div>
+
+<script>
+/* ===== ระบบเล่นเพลงอัตโนมัติวนลูปตลอด ===== */
+const bgm = document.getElementById('bgm');
+function playBGM() {
+  if (bgm && bgm.paused) {
+    bgm.play().catch(() => {});
+  }
+}
+// พยายามเล่นเพลงทันทีเมื่อเปิดหน้าเว็บ
+window.addEventListener('DOMContentLoaded', playBGM);
+// หากถูกเบราว์เซอร์บล็อกเพลง ให้เล่นทันทีเมื่อผู้ใช้แตะหรือคลิกส่วนใดก็ได้ครั้งแรก
+document.addEventListener('click', playBGM, { once: true });
+document.addEventListener('touchstart', playBGM, { once: true });
+
+/* ===== แก้ข้อความ/รูปตรงนี้ ===== */
+const MESSAGE = "📮 ก๊อก ๆข้อความถึง 2/13 ครูฟ้านะ (ไม่ใช่ครูปิ่น555) ตั้งแต่คาบแรกจนถึงคาบสุดท้ายที่เจอกันไม่รู้ว่ายังจำชื่อสลับกันอยู่รึเปล่า… ขอบคุณตลอดระยะเวลาหนึ่งเทอมที่สองทับสิบสามน่ารักกับครูตั้งแต่คาบแรกกจนถึงคาบนี้ ถึงคาบที่เราเรียนส่วนใหญ่จะเป็นตอนบ่าย อาจจะมีง่วงบ้างงแต่ห้องเราก็ยังตั้งใจเรียน ตั้งใจตอบ มีสีสันให้ครูทุกครั้งที่เข้าสอน และก็ยังเป็นนักเรียนที่น่ารักมากๆ เทอมสองตั้งใจเรียนกันมากๆนะ แต่ห้องนี้เรียนดีชิววว สุดท้าย… หวังว่าจะถูกใจกับเกรดที่ได้กันนะ ขอบคุณสำหรับความน่ารักที่มีให้กันนะจ๊ะ ไว้เจอกันใหมมม่ 2/13 🩵💭📮👋🏻";
+const PHOTO = "https://i.ibb.co/Mkpy9bHk/S-44548100.jpg";
+/* ================================ */
+
+const $=id=>document.getElementById(id);
+// เปลี่ยนไอคอนหัวใจตอนเปิดซองให้เป็นโทนสีฟ้า ขาว และประกายแสง
+const hearts=$('hearts'), symbols=['💙','🩵','🤍','✨','🦋'];
+
+// ทำให้หัวใจลอยขึ้นข้างบนแบบนุ่มนวล
+function drop(){
+  const e=document.createElement('div');e.className='h';
+  e.textContent=symbols[Math.random()*symbols.length|0];
+  const d=4+Math.random()*4;
+  e.style.cssText=`left:${Math.random()*100}%;font-size:${14+Math.random()*16}px;animation-duration:${d}s;--dx:${Math.random()*60-30}px;--s:${0.5+Math.random()};--r:${Math.random()*360}deg`;
+  hearts.appendChild(e);setTimeout(()=>e.remove(),d*1000);
+}
+setInterval(drop,400);for(let i=0;i<10;i++)setTimeout(drop,i*150);
+
+// แอนิเมชันตอนเปิดซองให้หัวใจพุ่งออกมา
+function burstHearts() {
+  for(let i=0; i<15; i++) {
+    setTimeout(()=>{
+      const e=document.createElement('div');e.className='h';
+      e.textContent=symbols[Math.random()*symbols.length|0];
+      e.style.cssText=`left:50%;bottom:30%;font-size:${16+Math.random()*20}px;animation:floatUp 1.5s ease-out forwards;--dx:${Math.random()*200-100}px;--s:${0.8+Math.random()};--r:${Math.random()*360}deg`;
+      hearts.appendChild(e);setTimeout(()=>e.remove(),1500);
+    }, i*50);
+  }
+}
+
+function go(n){document.querySelectorAll('.step').forEach(s=>s.classList.remove('on'));$('s'+n).classList.add('on')}
+let typing;
+function type(){
+  const el=$('txt');el.textContent='';el.classList.add('cur');let i=0;clearInterval(typing);$('sticker').style.opacity = 0; // ซ่อนสติ๊กเกอร์ก่อน
+  typing=setInterval(()=>{
+    el.textContent=MESSAGE.slice(0,++i);
+    el.style.whiteSpace='pre-line';
+    if(i>=MESSAGE.length){
+        clearInterval(typing);
+        el.classList.remove('cur');
+        $('sticker').style.opacity = 1; // โชว์สติ๊กเกอร์ตอนพิมพ์จบ
+    }
+  },50);
+}
+
+let busy=false;
+$('env').onclick=()=>{ 
+  playBGM(); // เล่นเพลงเมื่อแตะเปิดซอง
+  if(busy)return;busy=true;
+  $('env').classList.add('open');
+  burstHearts(); // พลุหัวใจตอนเปิด
+  setTimeout(()=>{go(2);type();busy=false;$('env').classList.remove('open')},1000);
+};
+
+$('c2').onclick=()=>{clearInterval(typing);$('photo').src=PHOTO;go(3)};
+
+$('c3').onclick=()=>{
+  go(4);const c=$('c4'),end=$('end');c.classList.remove('shrink');end.classList.remove('show');
+  void c.offsetWidth;setTimeout(()=>c.classList.add('shrink'),400);
+  setTimeout(()=>end.classList.add('show'),1500);
+};
+
+$('end').onclick=()=>{$('end').classList.remove('show');go(1)};$('end').style.cursor='pointer';
+</script>
+</body>
+</html>
